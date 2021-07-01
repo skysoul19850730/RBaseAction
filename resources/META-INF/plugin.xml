@@ -1,0 +1,38 @@
+<idea-plugin>
+  <id>com.skysoul.plugin.rbase</id>
+  <name>RBasePlugin</name>
+  <version>1.0</version>
+  <vendor email="kyzy_jk001@163.com" url="http://www.baidu.com">SkySoul</vendor>
+
+  <description><![CDATA[
+      rbase plugin:<br>
+      1. 基于RBaseProject的快速创建Activity,ViewModel,Layout的插件</br>
+    ]]></description>
+
+  <change-notes><![CDATA[
+    ]]>
+  </change-notes>
+
+  <!-- please see https://plugins.jetbrains.com/docs/intellij/build-number-ranges.html for description -->
+  <idea-version since-build="173.0"/>
+
+  <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+       on how to target different products -->
+  <depends>com.intellij.modules.platform</depends>
+  <depends>com.intellij.modules.lang</depends>
+  <depends>com.intellij.modules.java</depends>
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+
+  <actions>
+    <!-- Add your actions here -->
+    <group>
+      <action id="RBasePlugin.NewMenu" class="com.skysoul.plugin.rbase.actions.RBaseAction"
+              text="Create mvvm auto"/>
+<!--      <add-to-group group-id="GenerateGroup" anchor="after" relative-to-action="ReplaceInPath"/>-->
+      <add-to-group group-id="NewGroup" anchor="first" />
+    </group>
+  </actions>
+
+</idea-plugin>
