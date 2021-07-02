@@ -1,10 +1,7 @@
 package com.skysoul.plugin.rbase.actions
 
-import com.intellij.codeInsight.CodeInsightActionHandler
-import com.intellij.codeInsight.generation.actions.BaseGenerateAction
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import com.intellij.openapi.ui.showOkNoDialog
 import com.skysoul.plugin.rbase.creator.CreatorDispatcher
 import com.skysoul.plugin.rbase.ui.SelectDialog
 
@@ -26,7 +23,6 @@ class RBaseAction : AnAction() {
             }else{
                 dialog.showError(result)
             }
-            dialog.dispose()
         }
     }
 

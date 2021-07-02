@@ -18,15 +18,20 @@ public class SelectDialog extends JDialog {
     private JTextField et_name;
     private JRadioButton rbtn_activity;
     private JRadioButton rbtn_fragment;
+    private JLabel errorLabel;
     private SelectDialogListener mListener;
 
     public SelectDialog(SelectDialogListener listener) {
+        super();
         this.mListener = listener;
-        setSize(320, 300);
+
         setContentPane(contentPane);
-        setModal(true);
+//        setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        setAlwaysOnTop(true);
+        setSize(350, 350);
         setLocationRelativeTo(null);
+
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -57,7 +62,7 @@ public class SelectDialog extends JDialog {
     }
 
     public void showError(String msg) {
-
+        errorLabel.setText(msg);
     }
 
     public static void show(SelectDialogListener listener) {
