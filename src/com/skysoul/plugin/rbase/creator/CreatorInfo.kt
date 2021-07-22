@@ -42,11 +42,10 @@ class CreatorInfo {
     private fun parseFilePaths(): String? {
         try {
 
-            folder4Opt = if(file.isDirectory) {
-                file.path
-            }else{
-                file.parent.path
+            if(!file.isDirectory){
+                file = file.parent
             }
+            folder4Opt = file.path
 
             val srcMainIndex = folder4Opt.indexOf(FConfig.SRC_MAIN)
             if (srcMainIndex < 0) {
