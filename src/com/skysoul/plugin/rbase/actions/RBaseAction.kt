@@ -33,14 +33,21 @@ class RBaseAction : AnAction() {
     }
 
     private fun showSelectDialog(e: AnActionEvent) {
-        SelectDialog.show { dialog, preName, name, select ->
-           val result = doCreate(e,preName,name,select)
-            if(result == null){
-                dialog.dispose()
-            }else{
-                dialog.showError(result)
+        SelectDialog.show(object :SelectDialog.SelectDialogListener{
+            override fun onClickOk(dialog: SelectDialog?, preName: String?, name: String?, select: Int) {
+                val result = doCreate(e,preName,name!!,select)
+                if(result == null){
+                    dialog!!.dispose()
+                }else{
+                    dialog!!.showError(result)
+                }
             }
-        }
+
+            override fun getActionEvent(): AnActionEvent {
+                return e
+            }
+
+        })
     }
 
     private fun doCreate(e: AnActionEvent, perName: String?, name: String, select: Int): String? {

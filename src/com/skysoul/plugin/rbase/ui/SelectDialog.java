@@ -1,5 +1,15 @@
 package com.skysoul.plugin.rbase.ui;
 
+import com.intellij.ide.util.TreeClassChooser;
+import com.intellij.ide.util.TreeClassChooserFactory;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.psi.JavaDirectoryService;
+import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiDirectory;
+import com.intellij.psi.util.PsiUtil;
+import com.skysoul.plugin.rbase.options.CustomClass;
+import com.skysoul.plugin.rbase.options.RBaseOptions;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -9,6 +19,7 @@ public class SelectDialog extends JDialog {
 
     public interface SelectDialogListener {
         void onClickOk(SelectDialog dialog, String preName, String name, int select);
+        AnActionEvent getActionEvent();
     }
 
     private JPanel contentPane;
@@ -19,6 +30,9 @@ public class SelectDialog extends JDialog {
     private JRadioButton rbtn_activity;
     private JRadioButton rbtn_fragment;
     private JLabel errorLabel;
+    private JButton RBaseActivityButton;
+    private JButton RBaseFragmentButton;
+    private JButton RBaseViewModelButton;
     private SelectDialogListener mListener;
 
     public SelectDialog(SelectDialogListener listener) {
@@ -59,6 +73,68 @@ public class SelectDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        CustomClass activity = RBaseOptions.INSTANCE.getInstanse().getActivity();
+        if(activity!=null){
+            RBaseActivityButton.setText(activity.getClassName());
+        }
+        CustomClass fragment = RBaseOptions.INSTANCE.getInstanse().getFragment();
+        if(fragment!=null){
+            RBaseFragmentButton.setText(fragment.getClassName());
+        }
+        CustomClass viewmodel = RBaseOptions.INSTANCE.getInstanse().getViewModel();
+        if(viewmodel!=null){
+            RBaseViewModelButton.setText(viewmodel.getClassName());
+        }
+        RBaseActivityButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TreeClassChooser classChooser = TreeClassChooserFactory.getInstance(listener.getActionEvent().getProject()).createAllProjectScopeChooser("Select the java File which does the Dfga log");
+                classChooser.showDialog();
+                PsiClass selectJavaClass = classChooser.getSelected();
+                if(selectJavaClass!=null){
+                    RBaseActivityButton.setText(selectJavaClass.getName());
+                    CustomClass customClass = new CustomClass();
+                    customClass.setClassName(selectJavaClass.getName());
+                    String pName = JavaDirectoryService.getInstance().getPackage((PsiDirectory) selectJavaClass.getContainingFile().getParent()).getQualifiedName();
+                    customClass.setClassPackage(pName);
+                    RBaseOptions.INSTANCE.getInstanse().setActivity(customClass);
+                }
+            }
+        });
+        RBaseFragmentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TreeClassChooser classChooser = TreeClassChooserFactory.getInstance(listener.getActionEvent().getProject()).createAllProjectScopeChooser("Select the java File which does the Dfga log");
+                classChooser.showDialog();
+                PsiClass selectJavaClass = classChooser.getSelected();
+                if(selectJavaClass!=null){
+                    RBaseFragmentButton.setText(selectJavaClass.getName());
+                    CustomClass customClass = new CustomClass();
+                    customClass.setClassName(selectJavaClass.getName());
+                    String pName = JavaDirectoryService.getInstance().getPackage((PsiDirectory) selectJavaClass.getContainingFile().getParent()).getQualifiedName();
+                    customClass.setClassPackage(pName);
+                    RBaseOptions.INSTANCE.getInstanse().setFragment(customClass);
+                }
+            }
+        });
+        RBaseViewModelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TreeClassChooser classChooser = TreeClassChooserFactory.getInstance(listener.getActionEvent().getProject()).createAllProjectScopeChooser("Select the java File which does the Dfga log");
+                classChooser.showDialog();
+                PsiClass selectJavaClass = classChooser.getSelected();
+                if(selectJavaClass!=null){
+                    RBaseViewModelButton.setText(selectJavaClass.getName());
+                    CustomClass customClass = new CustomClass();
+                    customClass.setClassName(selectJavaClass.getName());
+                    String pName = JavaDirectoryService.getInstance().getPackage((PsiDirectory) selectJavaClass.getContainingFile().getParent()).getQualifiedName();
+                    customClass.setClassPackage(pName);
+                    RBaseOptions.INSTANCE.getInstanse().setViewModel(customClass);
+                }
+            }
+        });
+
     }
 
     public void showError(String msg) {

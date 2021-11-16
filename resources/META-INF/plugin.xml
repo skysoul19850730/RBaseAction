@@ -1,4 +1,5 @@
 <idea-plugin>
+
   <id>com.skysoul.plugin.rbase</id>
   <name>RBasePlugin</name>
   <version>1.0</version>
@@ -23,6 +24,7 @@
   <depends>com.intellij.modules.java</depends>
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
+    <applicationService serviceImplementation="com.skysoul.plugin.rbase.options.RBaseOptions"/>
   </extensions>
 
   <actions>

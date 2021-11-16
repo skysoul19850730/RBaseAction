@@ -1,10 +1,22 @@
 package com.skysoul.plugin.rbase.creator.tamplates
 
+import com.skysoul.plugin.rbase.options.RBaseOptions
+
 object ActivityTemplate {
     fun mvvm_kt(packageName: String, appId: String, dataBindingName: String, className: String, modelPackage: String, modelName: String, layoutName: String): String {
+
+        var import = "com.radiance.androidbase.applibcore.activity.mvvm.RBaseMvvmActivity"
+        var actName = "RBaseMvvmActivity"
+
+        RBaseOptions.instanse.activity?.run {
+            import = "${this.classPackage}.${this.className}"
+            actName = this.className
+        }
+
+
         return "package ${packageName}\n" +
                 "\n"+
-                "import com.radiance.androidbase.applibcore.activity.mvvm.RBaseMvvmActivity\n" +
+                "import $import\n" +
                 "import android.os.Bundle\n" +
                 "import android.view.View\n" +
                 "\n" +
@@ -14,7 +26,7 @@ object ActivityTemplate {
                 else "import ${modelPackage}.$modelName\n") +
                 "\n" +
 
-                "class $className :RBaseMvvmActivity<$dataBindingName,$modelName>(){\n" +
+                "class $className :$actName<$dataBindingName,$modelName>(){\n" +
                 "\n" +
                 "    override fun getViewLayoutId():Int{\n" +
                 "        return R.layout.$layoutName\n" +
